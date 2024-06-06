@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1= title
+  p Detalhes da reparação.
+
+  ul
+    li
+      strong ID: 
+      | #{repair._id}
+    li
+      strong Data: 
+      | #{repair.data}
+    li
+      strong Nome: 
+      | #{repair.nome}
+    li
+      strong Matrícula: 
+      | #{repair.viatura.matricula}
+    li
+      strong Marca: 
+      | #{repair.viatura.marca}
+    li
+      strong Modelo: 
+      | #{repair.viatura.modelo}
+    li
+      strong Número de Intervenções: 
+      | #{repair.nr_intervencoes}
+    li
+      strong Intervenções: 
+      ul
+        each intervencao in repair.intervencoes
+          li #{intervencao.nome} - #{intervencao.descricao}
+
+  a(href='/') Voltar à página principal

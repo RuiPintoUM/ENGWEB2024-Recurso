@@ -1,0 +1,120 @@
+querie 1 ----------------------------------------------------------------------
+Input:
+db.livros.countDocuments({ title: /Love/i })
+
+
+Output: 
+366
+
+querie 2 -----------------------------------------------------------------------
+Input:
+db.livros.find({ author: /Austen/ }, { title: 1, _id: 0 }).sort({ title: 1 })
+
+Output:
+[
+  { title: 'Emma' },
+  { title: 'Mansfield Park' },
+  { title: 'Northanger Abbey' },
+  { title: 'Persuasion' },
+  { title: 'Pride and Prejudice' },
+  { title: 'Pride and Prejudice and Zombies' },
+  { title: 'Pride and Prejudice and Zombies: The Graphic Novel' },
+  { title: 'Sense and Sensibility' },
+  { title: 'The Complete Novels' }
+]
+
+
+querie 3 -----------------------------------------------------------------------
+Input:
+db.livros.aggregate([
+...     { $unwind: "$author" },
+...     { $group: { _id: "$author" } },
+...     { $sort: { _id: 1 } }
+... ])
+
+Output:
+[
+  { _id: '#1-3)' },
+  { _id: '#4-5)' },
+  { _id: '(Goodreads Author)' },
+  { _id: ')' },
+  { _id: '50 Cent' },
+  { _id: "A'Mera Frieman" },
+  { _id: 'A. Elizabeth Delany' },
+  { _id: 'A. Kirk (Goodreads Author)' },
+  { _id: 'A. Lee Martinez (Goodreads Author)' },
+  { _id: 'A. Meredith Walters (Goodreads Author)' },
+  { _id: 'A. Merritt' },
+  { _id: 'A. Poulin Jr. (Translator)' },
+  { _id: 'A. Roger Merrill' },
+  { _id: 'A. Rose (Goodreads Author)' },
+  { _id: 'A. Vivanti Salmon (Translator)' },
+  { _id: 'A.A. Attanasio (Goodreads Author)' },
+  { _id: 'A.A. Milne' },
+  { _id: 'A.C. Bextor (Goodreads Author)' },
+  { _id: 'A.C. Crispin' },
+  { _id: 'A.C. Gaughen (Goodreads Author)' }
+]
+
+(o output teve mais resultados, apenas foram colocados uma parte dos mesmos)
+
+querie 4 ------------------------------------------------------------------------
+Input:
+db.livros.aggregate([
+...     { $unwind: "$genres" },
+...     { $group: { _id: "$genres", count: { $sum: 1 } } },
+...     { $sort: { count: -1 } }
+... ])
+
+Output
+[
+  { _id: 'Fiction', count: 14461 },
+  { _id: 'Fantasy', count: 7189 },
+  { _id: 'Romance', count: 6746 },
+  { _id: 'Young Adult', count: 5875 },
+  { _id: 'Contemporary', count: 4709 },
+  { _id: 'Novels', count: 4181 },
+  { _id: 'Adult', count: 3927 },
+  { _id: 'Audiobook', count: 3721 },
+  { _id: 'Classics', count: 3707 },
+  { _id: 'Historical Fiction', count: 3511 },
+  { _id: 'Mystery', count: 3335 },
+  { _id: 'Adventure', count: 3280 },
+  { _id: 'Literature', count: 3149 },
+  { _id: 'Paranormal', count: 2816 },
+  { _id: 'Historical', count: 2764 },
+  { _id: 'Nonfiction', count: 2626 },
+  { _id: 'Science Fiction', count: 2440 },
+  { _id: 'Magic', count: 2156 },
+  { _id: 'Thriller', count: 2119 },
+  { _id: 'Childrens', count: 2088 }
+]
+
+(o output teve mais resultados, apenas foram colocados uma parte dos mesmos)
+
+querie 5 --------------------------------------------------------------------------
+Input:
+db.livros.find({ characters: "Sirius Black" }, { title: 1, isbn: 1, _id: 0 }).sort({ title: 1 })
+
+
+Output:
+[
+  {
+    title: 'Harry Potter and the Deathly Hallows',
+    isbn: '9780545010221'
+  },
+  {
+    title: 'Harry Potter and the Goblet of Fire',
+    isbn: '9999999999999'
+  },
+  {
+    title: 'Harry Potter and the Order of the Phoenix',
+    isbn: '9780439358071'
+  },
+  {
+    title: 'Harry Potter and the Prisoner of Azkaban',
+    isbn: '9780439655484'
+  }
+]
+
+
